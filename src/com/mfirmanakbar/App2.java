@@ -1,18 +1,12 @@
 package com.mfirmanakbar;
 
-//acak berdasarkan act @# --> #,@,#,@,#,#,@,@,#
+// acak berdasarkan thread @@, ##, **, ##, **
 
-// job 2 will not running after MyTask Completed
-/*class MyTask {
-	void executeTask() {
-		for (int i = 1; i <= 10; i++) {
-			System.out.println("@@ Printer 2 Index @" + i);
-		}
-	}
-}*/
+class CA {
 
-//job 2 and MyTask will running concurrently / parallelly
-class MyTask extends Thread {
+}
+
+class MyTask2 extends CA implements Runnable {
 	@Override
 	public void run() {
 		for (int i = 1; i <= 10; i++) {
@@ -21,27 +15,37 @@ class MyTask extends Thread {
 	}
 }
 
-//https://youtu.be/TCd8QIS-2KI
-	
-public class App {
+class YourTask implements Runnable {
+	@Override
+	public void run() {
+		for (int i = 1; i <= 10; i++) {
+			System.out.println("** Printer 3 Index *" + i);
+		}
+	}
+}
+
+public class App2 {
 
 	public static void main(String[] args) {
-		
-		//job 1
+
+		// job 1
 		System.out.println("##====Application Started====##");
 
-		MyTask task = new MyTask();
-		//task.executeTask();
+		Runnable r = new MyTask2();
+		Thread task = new Thread(r);
 		task.start();
 		
-		//job 2
+		Thread yourTask	= new Thread(new YourTask());
+		yourTask.start();
+
+		// job 2
 		for (int i = 1; i <= 10; i++) {
 			System.out.println("## Printer 1 Index #" + i);
 		}
-		
-		//job 3
+
+		// job 3
 		System.out.println("##====Application Finished====##");
-		
+
 	}
-	
+
 }
